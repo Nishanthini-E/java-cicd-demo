@@ -38,8 +38,15 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
+            echo "Current directory:"
+            pwd
+            echo "Files:"
+            ls -l
+            echo "Java version:"
+            java -version
+            echo "Killing old app..."
             pkill -f java || true
-            sleep 2
-            cd /home/ubuntu/target
-            nohup java -cp java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
+            echo "Starting new app..."
+            nohup java -cp /home/ubuntu/target/java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
+            echo "Done"
 
