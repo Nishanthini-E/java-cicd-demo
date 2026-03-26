@@ -9,7 +9,7 @@ public class App {
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(3000), 0);
         server.createContext("/", exchange -> {
-            String response = "Hello from Java CI/CD on AWS!";
+            String response = "Hello to Java CI/CD project on AWS!";
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
