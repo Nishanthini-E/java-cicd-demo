@@ -38,5 +38,8 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
-          pkill -f java || true
-          nohup java -cp /home/ubuntu/java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
+            pkill -f java || true
+            sleep 2
+            cd /home/ubuntu
+            nohup java -cp java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
+
