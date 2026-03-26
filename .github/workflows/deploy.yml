@@ -41,5 +41,5 @@ jobs:
             pkill -f java || true
             sleep 2
             cd /home/ubuntu
-            nohup java -jar java-cicd-demo-1.0-SNAPSHOT.jar > app.log 2>&1 &
+            nohup java -cp java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
 
