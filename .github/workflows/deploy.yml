@@ -40,6 +40,6 @@ jobs:
         script: |
             pkill -f java || true
             sleep 2
-            cd /home/ubuntu
+            cd /home/ubuntu/target
             nohup java -cp java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
 
