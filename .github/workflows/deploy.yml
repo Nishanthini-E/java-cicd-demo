@@ -48,5 +48,5 @@ jobs:
             pkill -f java || true
             echo "Starting new app..."
             nohup java -cp /home/ubuntu/java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
-            echo "Done"
+            echo "completed"
 
