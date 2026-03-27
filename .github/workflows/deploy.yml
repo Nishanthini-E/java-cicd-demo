@@ -57,7 +57,7 @@ jobs:
           echo "Starting new app..."
           cd /home/ubuntu
 
-          nohup java -cp java-cicd-demo-1.0.1.jar com.demo.App > app.log 2>&1 &
+          nohup java -jar java-cicd-demo-1.0-SNAPSHOT.jar > app.log 2>&1 &
 
           echo "App started successfully"
           echo "===== END ====="
