@@ -21,7 +21,7 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean package
-      working-directory: java-cicd-demo
+      
 
     - name: Copy JAR to EC2
       uses: appleboy/scp-action@v0.1.7
