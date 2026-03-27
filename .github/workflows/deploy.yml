@@ -45,7 +45,7 @@ jobs:
           echo "===== START ====="
 
           echo "Listing files in /home/ubuntu:"
-          ls -l /home/ubuntu/target
+          ls -l /home/ubuntu
 
           echo "Java version:"
           java -version
@@ -56,7 +56,7 @@ jobs:
           sleep 2
 
           echo "Starting new app..."
-          cd /home/ubuntu/target
+          cd /home/ubuntu
 
           nohup java -jar java-cicd-demo-1.0-1.jar > app.log 2>&1 &
 
