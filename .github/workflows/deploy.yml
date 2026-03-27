@@ -38,27 +38,27 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
-      echo "===== START ====="
+            echo "===== START ====="
       
-      echo "Current directory:"
-      pwd
+            echo "Current directory:"
+            pwd
       
-      echo "Files in /home/ubuntu:"
-      ls -l /home/ubuntu
+            echo "Files in /home/ubuntu:"
+            ls -l /home/ubuntu
       
-      echo "Java version:"
-      java -version
+            echo "Java version:"
+            java -version
       
-      echo "Killing old app..."
-      pkill -f java || true
-      sleep 2
+            echo "Killing old app..."
+            pkill -f java || true
+            sleep 2
       
-      echo "Starting new app..."
-      cd /home/ubuntu
+            echo "Starting new app..."
+            cd /home/ubuntu
       
-      nohup java -cp java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
+            nohup java -cp java-cicd-demo-1.0-SNAPSHOT.jar com.demo.App > app.log 2>&1 &
       
-      echo "App started"
-      echo "===== END ====="
+            echo "App started"
+            echo "===== END ====="
 
 
