@@ -21,6 +21,7 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean package
+      working-directory: java-cicd-demo
 
     - name: Copy JAR to EC2
       uses: appleboy/scp-action@v0.1.7
@@ -28,8 +29,18 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
-        source: "target/*.jar"
+        source: "java-cicd-demo/target/*.jar"
         target: "/home/ubuntu/"
+        
+    - name: Verify JAR copied
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+            echo "Checking JAR:"
+            ls -l /home/ubuntu/*.jar
 
     - name: Run app on EC2
       uses: appleboy/ssh-action@v0.1.7
