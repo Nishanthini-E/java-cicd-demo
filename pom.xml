@@ -4,7 +4,7 @@
   <groupId>com.demo</groupId>
   <artifactId>java-cicd-demo</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>java-cicd-demo</name>
   <url>http://maven.apache.org</url>
   <dependencies>
