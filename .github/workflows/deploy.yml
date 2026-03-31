@@ -1,4 +1,4 @@
-name: Java CI/CD to EC2
+name: Docker CI/CD to EC2
 
 on:
   push:
@@ -19,46 +19,40 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
 
-    # ✅ Build (root project)
-    - name: Build with Maven
+    - name: Build JAR
       run: mvn clean package
 
-    # ✅ Copy JAR to EC2
-    - name: Copy JAR to EC2
-      uses: appleboy/scp-action@v0.1.7
+    # 🐳 Login to Docker Hub
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
       with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.EC2_KEY }}
-        source: "target/*.jar"
-        target: "/home/ubuntu/"
-        strip_components: 1
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # ✅ Deploy & Run
-    - name: Run app on EC2
+    # 🐳 Build image
+    - name: Build Docker Image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/java-cicd-demo .
+
+    # 🐳 Push image
+    - name: Push Docker Image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/java-cicd-demo
+
+    # 🚀 Deploy on EC2
+    - name: Deploy on EC2
       uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_KEY }}
         script: |
-          echo "===== START ====="
+          echo "Pulling latest image..."
+          docker pull ${{ secrets.DOCKER_USERNAME }}/java-cicd-demo
 
-          echo "Listing files in /home/ubuntu:"
-          ls -l /home/ubuntu
+          echo "Stopping old container..."
+          docker stop java-app || true
+          docker rm java-app || true
 
-          echo "Java version:"
-          java -version
+          echo "Running new container..."
+          docker run -d -p 3000:3000 --name java-app ${{ secrets.DOCKER_USERNAME }}/java-cicd-demo
 
-          echo "Stopping old app safely..."
-          ps -ef | grep java | grep -v grep | awk '{print $2}' | xargs -r kill -9
-
-          sleep 2
-
-          echo "Starting new app..."
-          cd /home/ubuntu
-
-          nohup java -jar java-cicd-demo-1.0.1.jar > app.log 2>&1 &
-
-          echo "App started successfully"
-          echo "===== END ====="
+          echo "Deployment complete"
